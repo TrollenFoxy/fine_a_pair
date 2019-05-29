@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <title>Найди пару</title>
+                <style>
+                	#squa {width: 280px;}
+
+            #squa a {width: 60px;
+ 				height: 60px;
+ 				float: left;
+    				display: block;
+    				cursor: pointer;
+    				margin: -2px;
+    				border: 2px solid #6e6d70;
+                                }
+            #squa .color1 {background-color: #ff0000;}
+            #squa .color2 {background-color: #aaff00;}
+            #squa .color3 {background-color: #00e9ff;}
+            #squa .color4 {background-color: #002aff;}
+            #squa .color5 {background-color: #ff38c6;}
+            #squa .color6 {background-color: #bf0000;}
+            #squa .color7 {background-color: #706f6b;}
+            #squa .color8 {background-color: #000000;}
+            #squa .hidden {background-color: #ffffff;}
+
+                </style>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+ 		<script>
+         $(function()
+                {var codes = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8], i, j, x, y;
+        for(y = codes.length; y;){j = Math.floor(Math.random() * y);x = codes[--y];codes[y] = codes[j];codes[j] = x;}
+        for(j = 0; j < 16; j++) document.getElementById('squa').innerHTML += '<a color="' + codes[j] + '" class="color' + codes[j] + ' hidden">&nbsp;</a>';
+        var check = false, selcolor = 0, sela, open = 0, timer, a = document.getElementsByTagName('a');
+        var time;
+        for(var i = 0; i < a.length; i++){
+                a[i].addEventListener('click', function(e){
+                        var el = e.target;
+                        if(el.className.indexOf('hidden') > -1){
+                                time || (time = moment());
+                                el.className = el.className.replace('hidden', '');
+                                setTimeout(function(){
+                                        if(check){
+                                                check = false;
+                                                if(el.getAttribute('color') == selcolor){
+                                                        open++;
+
+                                                        if(open == 8) {
+                                                        time = moment() - time;
+                                                        time = moment(time).utc().format('mm:ss');
+                                                        alert('Вы выиграли! ' + '\n'+ 'Затраченное время: ' + time);
+                                                        }
+                                                }
+                                                else{
+                                                        sela.className += ' hidden'; el.className += ' hidden';
+                                                }
+                                        }
+                                        else{
+                                                selcolor = el.getAttribute('color'); sela = el; check = true;
+                                        }
+                                }, 100);
+                        }
+                });
+        }
+});
+        </script>
+    </head>
+    <body>
+        <div id="squa"></div>
+        <form>
+        </form>
+    </body>
+</html>
